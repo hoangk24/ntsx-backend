@@ -1,0 +1,259 @@
+tags:
+  - name: users
+    description: users API
+  - name: auth
+    description: auth API
+  - name: product
+    description: product API
+paths:
+  /api/users:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - users
+      summary: Find All Users
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Server Error
+    post:
+      tags:
+        - users
+      summary: Add User
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: "#/definitions/users"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+  "/users/{id}":
+    get:
+      tags:
+        - users
+      summary: Find User By Id
+      parameters:
+        - name: id
+          in: path
+          description: User Id
+          required: true
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+    put:
+      tags:
+        - users
+      summary: Update User By Id
+      parameters:
+        - name: id
+          in: path
+          description: user Id
+          required: true
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: "#/definitions/users"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+  /api/auth/login:
+    post:
+      tags:
+        - auth
+      summary: login
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: "#/definitions/login"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+  /api/auth/signup:
+    post:
+      tags:
+        - auth
+      summary: register
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: "#/definitions/register"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+
+  /api/auth/verified-email:
+    get:
+      tags:
+        - auth
+      summary: verify email
+      parameters:
+        - name: token
+          in: query
+          description: verify email
+          required: true
+          schema:
+            $ref: "#/definitions/verifed-email"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+  /api/product/get-product:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - product
+      summary: get product
+      parameters:
+        - name: page
+          in: query
+          description: page
+          required: true
+        - name: perpage
+          in: query
+          description: perpage
+          required: true
+          schema:
+            $ref: "#/definitions/pagination"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Server Error
+definitions:
+  users:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      id:
+        description: user Id
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+  login:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      username:
+        type: string
+        description: user Username
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+  register:
+    type: object
+    required:
+      - email
+      - password
+      - username
+      - fullName
+    properties:
+      username:
+        type: string
+        description: user Username
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+      fullName:
+        type: string
+        description: user Full Name
+  verifed-email:
+    type: object
+    required:
+      - token
+    token:
+      type: string
+      description: user token
+  pagination:
+    type: object
+    required:
+      - page
+      - perpage
+    page:
+      type: integer
+      description: current page
+    perpage:
+      type: integer
+      description: perpage
+  create-product:
+    type: object
+    required:
+      - product
+      - posters
+    product:
+      type: string
+      description: product must be change to json
+    posters:
+      type: file
+      description: The file to upload.
+schemes:
+  - https
+  - http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
