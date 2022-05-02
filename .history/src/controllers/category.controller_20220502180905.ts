@@ -23,9 +23,9 @@ class CateogryController {
   };
   public createSubCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const subCategoryData: any = req.body;
-      console.log(req.body);
+      console.log(subCategoryData);
 
+      const subCategoryData: any = req.body;
       const createCategory = await this.categoryService.createSubCategory(subCategoryData);
       res.status(200).json({ data: createCategory, message: 'Create sub category successfully' });
     } catch (error) {

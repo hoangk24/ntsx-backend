@@ -6,8 +6,8 @@ export class CreateCategoryDto {
   name: string;
   @IsString()
   path: string;
-  // @IsArray()
-  // subCategory: ISubCategory[];
+  @IsArray()
+  subCategory: ISubCategory[];
 }
 export class CreateSubCategoryDto {
   @IsString()
