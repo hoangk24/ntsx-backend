@@ -14,8 +14,8 @@ class CateogryController {
   public createCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const categoryData: any = req.body;
-      const file = req.file;
-      const createCategory = await this.categoryService.createCategory(categoryData, file);
+      const files = req.files;
+      const createCategory = await this.categoryService.createCategory(categoryData, files[0]);
       res.status(200).json({ data: createCategory, message: 'Create category successfully' });
     } catch (error) {
       next(error);

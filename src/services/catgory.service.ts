@@ -21,7 +21,6 @@ class CategoryService {
     const data = await cloudinaryUpload.upload(logo.path, ForderName.LOGO);
     const logoUploaded: IImage = { public_id: data.public_id, url: data.url };
     fs.unlinkSync(logo.path);
-
     const createCategory = await this.category.create({
       _id: new mongoose.Types.ObjectId(),
       ...categoryData,

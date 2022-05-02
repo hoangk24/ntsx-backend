@@ -22,15 +22,15 @@ class CategoryRoute implements IRoutes {
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
-      uploadFile.single('logo'),
+      uploadFile.array('logo', 2),
       this.categoryController.createCategory,
     );
     this.router.post(
       `${this.path}/create-nsx`,
-      authMiddleware,
-      isAdminMiddleware,
-      validationMiddleware(CreateSubCategoryDto, 'body'),
-      uploadFile.single('logo'),
+      // authMiddleware,
+      // isAdminMiddleware,
+      // validationMiddleware(CreateSubCategoryDto, 'body'),
+      // uploadFile.single('logo'),
       this.categoryController.createSubCategory,
     );
   }

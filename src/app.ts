@@ -31,7 +31,7 @@ class App {
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
-    // this.autoRun.run();
+    this.autoRun.run();
   }
 
   public getServer() {
