@@ -15,8 +15,9 @@ const cartsSchema: Schema = new Schema(
     list: [
       {
         idProduct: { type: Types.ObjectId, ref: productModel },
-        quantity: { type: Number },
-        size: { type: String },
+        quantity: { type: Number, required: true },
+        size: { type: String, required: true },
+        cost: { type: Number, required: true },
       },
     ],
     totalCost: { type: Number, required: true },

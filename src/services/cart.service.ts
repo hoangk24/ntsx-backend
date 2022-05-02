@@ -8,7 +8,7 @@ import voucherModel from '@/models/voucher.model';
 import { checkDate } from '@/utils/checkDate';
 import _findIndex from 'lodash/findIndex';
 import _cloneDeep from 'lodash/cloneDeep';
-
+import _filter from 'lodash/filter';
 import mongoose from 'mongoose';
 import saleProductModel from '@/models/sale-product.model';
 
@@ -19,7 +19,6 @@ class CartService {
   public saleProductModel = saleProductModel;
   public async createCart(data: CreateCartDto): Promise<ICart> {
     const { list } = data;
-    //!check quantity and minus quantity if enough
     for (const it of list) {
       const { size } = it;
       const findProduct = await this.productModel.findById(it.idProduct);

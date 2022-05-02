@@ -22,13 +22,6 @@ const productsSchema: Schema = new Schema(
     isDeleted: { type: Boolean, default: false },
     note: { type: String, required: true },
     comment: [{ type: Types.ObjectId, ref: commentModel }],
-    // rate: {
-    //   terribly: { type: Number, default: 0 },
-    //   bad: { type: Number, default: 0 },
-    //   normal: { type: Number, default: 0 },
-    //   good: { type: Number, default: 0 },
-    //   well: { type: Number, default: 0 },
-    // },
   },
   { timestamps: true },
 );
