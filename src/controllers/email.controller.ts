@@ -29,7 +29,27 @@ export class EmailController {
       next(error);
     }
   }
+  public async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
 
+      const token = await this.emailService.forgotPassword(email);
+      const message: MessageSendMail = {
+        subject: 'Xác minh Email NTH Team',
+        title: 'EMAIL VERIFIED',
+        message: {
+          text: 'Click vào xác minh để đổi mật khẩu của bạn',
+          title: 'Chào bạn mừng bạn để NTH STORE',
+          link: `${UI_URL}/change-password?token=${token.token}`,
+        },
+      };
+      await sendMail({ email: email, message, type: 'verify' }).then(() => {
+        res.status(201).json({ data: {}, message: 'Gửi mail thành công!' });
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   public async verifiedEmail(req: Request, res: Response, next: NextFunction) {
     try {
       const { token }: any = req.body;

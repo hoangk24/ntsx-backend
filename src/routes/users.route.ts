@@ -23,6 +23,7 @@ class UsersRoute implements IRoutes {
     this.router.delete(`${this.path}/delete-users/:id`, this.usersController.deleteUser);
     this.router.post(`${this.path}/active-mail/:id`, this.usersController.activeMailUser.bind(this.usersController));
     this.router.post(`${this.path}/change-role/:id`, this.usersController.changeRole);
+    this.router.post(`${this.path}/change-password`, this.usersController.changePassword);
   }
 }
 

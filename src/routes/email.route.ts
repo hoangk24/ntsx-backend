@@ -12,6 +12,7 @@ class EmailRoute implements IRoutes {
 
   private initializeRoutes() {
     this.router.post(`${this.path}/re-verified-mail`, this.emailController.resendVerifyEmail.bind(this.emailController));
+    this.router.post(`${this.path}/forgot-password`, this.emailController.forgotPassword.bind(this.emailController));
     this.router.post(`${this.path}/create-mail`, this.emailController.createEmail.bind(this.emailController));
     this.router.post(`${this.path}/verified-mail`, this.emailController.verifiedEmail.bind(this.emailController));
   }

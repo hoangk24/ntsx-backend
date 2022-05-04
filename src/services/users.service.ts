@@ -1,3 +1,4 @@
+import { SECRET_KEY } from '@/config';
 import emailModel from '@/models/email';
 import { RegisterUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
@@ -5,6 +6,7 @@ import { Role, IUser } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
 import { hash } from 'bcrypt';
+import { verify } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 class UserService {
   public users = userModel;
@@ -19,7 +21,12 @@ class UserService {
     if (!findUser) throw new HttpException(409, 'Không tìm thấy người dùng này!');
     return findUser;
   }
-
+  public async changePassword({ token, newPassword }: any): Promise<IUser> {
+    const data: any = await verify(token, SECRET_KEY);
+    const hashedPassword = await hash(newPassword, 10);
+    const update = await this.users.findByIdAndUpdate(data?._id, { password: hashedPassword });
+    return update;
+  }
   public async activeMail(userId: string): Promise<IUser> {
     if (isEmpty(userId)) throw new HttpException(400, 'Không tìm thấy id!');
     const findUser: IUser = await this.users.findOne({ _id: userId }).populate('email');

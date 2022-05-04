@@ -5,7 +5,15 @@ import userService from '@services/users.service';
 
 class UsersController {
   public userService = new userService();
-
+  public changePassword = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = req.body;
+      const update: IUser = await this.userService.changePassword(data);
+      res.status(200).json({ data: update, message: 'update' });
+    } catch (error) {
+      next(error);
+    }
+  };
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const findAllUsersData: IUser[] = await this.userService.findAllUser();

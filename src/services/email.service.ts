@@ -10,12 +10,18 @@ import jwt from 'jsonwebtoken';
 class EmailService {
   public users = userModel;
   public emails = emailModel;
-
+  public async forgotPassword(email: string): Promise<any> {
+    const findEmail = await this.emails.findOne({ email });
+    if (!findEmail) throw new HttpException(400, 'Email này không trùng với tài khoản nào');
+    const findUser = await this.users.findOne({ email: findEmail._id });
+    const token = await createToken(findUser);
+    return token;
+  }
   public async verifiedEmail(token: string): Promise<IUser> {
     const data: any = await jwt.verify(token, SECRET_KEY);
-    const verify = await this.emails.findByIdAndUpdate(data?._id, { verified: true });
-    const findUser: IUser = await this.users.findOne({ email: verify.email });
-    return findUser;
+    const user = await this.users.findById(data._id);
+    await this.emails.findByIdAndUpdate(user.email, { verified: true });
+    return user;
   }
   public async resendMail(userData: ResendMailDto): Promise<{ createUser: IUser; token: ITokenData }> {
     const findUser: IUser = await this.users.findById(userData.id).populate({
