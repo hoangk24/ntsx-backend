@@ -26,6 +26,7 @@ class ProductService {
   }
   public async getProductByNsx(path: string): Promise<IProduct[]> {
     const findCate = await this.subCate.findOne({ path });
+
     const allProduct = await this.product.find({ isDeleted: false, nsx: findCate._id }).populate('category nsx');
     return allProduct;
   }

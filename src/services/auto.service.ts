@@ -3,10 +3,10 @@ import cartModel from '@/models/cart.model';
 import categoryModel from '@/models/category.model';
 import discountModel from '@/models/discount.model';
 import productModel from '@/models/product.model';
+import saleProductModel from '@/models/sale-product.model';
 import subCategoryModel from '@/models/sub-category.models';
 import voucherModel from '@/models/voucher.model';
 import moment from 'moment';
-import mongoose from 'mongoose';
 export class AutoRun {
   productModel = productModel;
   discountModel = discountModel;
@@ -14,6 +14,7 @@ export class AutoRun {
   categoryModel = categoryModel;
   voucher = voucherModel;
   cart = cartModel;
+  sale = saleProductModel;
   checkExprired = async (startDate: Date, endDate: Date): Promise<boolean> => {
     return moment(Date.now()).isBefore(endDate) && moment(Date.now()).isAfter(startDate);
   };

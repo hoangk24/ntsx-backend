@@ -17,7 +17,7 @@ class AuthController {
         title: 'EMAIL VERIFIED',
         message: {
           title: 'Vui lòng click Xác minh để xác minh tài khoản của bạn',
-          link: `${UI_URL}/verified-email?token=${token.token}`,
+          link: `${UI_URL}/verified-emal?token=$${token.token}`,
         },
       };
       await sendMail({ email: createUser?.email?.email, message, type: 'verify' }).then(() => {

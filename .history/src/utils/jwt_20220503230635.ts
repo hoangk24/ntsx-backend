@@ -7,9 +7,10 @@ async function decodeToken(token: string): Promise<any> {
   const secretKey: string = SECRET_KEY;
   const data = await verify(token, secretKey);
   console.log(data);
+
   return data;
 }
-function createToken(user: IUser): any {
+function createToken(user: IUser): ITokenData {
   const dataStoredInToken: IDataStoredInToken = { _id: user._id };
   const secretKey: string = SECRET_KEY;
   const expiresIn: number = 60 * 60;

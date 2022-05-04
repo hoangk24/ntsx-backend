@@ -32,7 +32,7 @@ export class EmailController {
 
   public async verifiedEmail(req: Request, res: Response, next: NextFunction) {
     try {
-      const token: any = req.body;
+      const { token }: any = req.body;
       const user: IUser = await this.emailService.verifiedEmail(token);
       res.status(200).json({
         data: user,

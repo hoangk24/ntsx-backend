@@ -4,7 +4,7 @@ import { HttpException } from '@/exceptions/HttpException';
 import { IDataStoredInToken, ITokenData } from '@/interfaces/auth.interface';
 import { IUser } from '@/interfaces/users.interface';
 import emailModel from '@/models/email';
-import { createToken, decodeToken } from '@/utils/jwt';
+import { createToken } from '@/utils/jwt';
 import userModel from '@models/users.model';
 import jwt from 'jsonwebtoken';
 class EmailService {
@@ -12,8 +12,11 @@ class EmailService {
   public emails = emailModel;
 
   public async verifiedEmail(token: string): Promise<IUser> {
-    const data: any = await jwt.verify(token, SECRET_KEY);
-    const verify = await this.emails.findByIdAndUpdate(data?._id, { verified: true });
+    const data = await jwt.verify(token, SECRET_KEY);
+    console.log(data);
+
+    if (!data) throw new HttpException(400, 'Token invalid');
+    const verify = await this.emails.findByIdAndUpdate(data._id, { verified: true });
     const findUser: IUser = await this.users.findOne({ email: verify.email });
     return findUser;
   }

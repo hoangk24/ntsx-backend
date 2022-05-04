@@ -4,18 +4,20 @@ import productModel from '@/models/product.model';
 import userModel from '@/models/users.model';
 import _reduce from 'lodash/reduce';
 import { NextFunction, Request, Response } from 'express';
+import saleProductModel from '@/models/sale-product.model';
 export class DashboardService {
   users = userModel;
   products = productModel;
   carts = cartModel;
+  sale = saleProductModel;
   public getDashboard = async (): Promise<any> => {
     const countProduct = await this.products.count();
     const countUsers = await this.users.count();
-    const countCarts = await this.carts.count();
+    const countCarts = await this.carts.find({ status: CartStatus.CREATING }).count();
     const totalCost = _reduce(
-      await this.carts.find({ status: CartStatus.DONE }),
+      await this.sale.find({}),
       (result: any, item) => {
-        result += item.finalCost;
+        result += item.cost;
         return result;
       },
       0,

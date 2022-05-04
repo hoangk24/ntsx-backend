@@ -25,7 +25,7 @@ class AuthService {
       email: createMail._id,
       password: hashedPassword,
     });
-    const token: ITokenData = createToken(createUserData);
+    const token: ITokenData = await createToken(createUserData);
     const createUserFind: IUser = await this.users.findById(createUserData._id).populate({
       path: 'email',
       model: emailModel,

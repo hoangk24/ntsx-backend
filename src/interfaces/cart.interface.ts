@@ -19,6 +19,7 @@ export interface ICartItem {
   discount: number;
   note: string;
   poster?: string;
+  cost: number;
 }
 
 export enum CartStatus {

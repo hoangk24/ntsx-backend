@@ -6,14 +6,15 @@ import { IUser } from '@/interfaces/users.interface';
 import emailModel from '@/models/email';
 import { createToken, decodeToken } from '@/utils/jwt';
 import userModel from '@models/users.model';
-import jwt from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 class EmailService {
   public users = userModel;
   public emails = emailModel;
 
   public async verifiedEmail(token: string): Promise<IUser> {
-    const data: any = await jwt.verify(token, SECRET_KEY);
-    const verify = await this.emails.findByIdAndUpdate(data?._id, { verified: true });
+    const data = (await verify(token, SECRET_KEY)) as IDataStoredInToken;
+    if (!data) throw new HttpException(400, 'Token invalid');
+    const verify = await this.emails.findByIdAndUpdate(data._id, { verified: true });
     const findUser: IUser = await this.users.findOne({ email: verify.email });
     return findUser;
   }
