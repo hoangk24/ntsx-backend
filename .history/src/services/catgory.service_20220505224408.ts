@@ -32,6 +32,7 @@ class CategoryService {
   public async updateCategory(id: string, update: any, logo?: any): Promise<ICategory> {
     if (logo) {
       const data = await cloudinaryUpload.upload(logo.path, ForderName.LOGO);
+
       const logoUploaded: IImage = { public_id: data.public_id, url: data.url };
       fs.unlinkSync(logo.path);
       const updateCategory = await this.category.findByIdAndUpdate(id, {

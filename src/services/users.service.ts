@@ -43,7 +43,6 @@ class UserService {
 
   public async createUser(userData: RegisterUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
-
     const findEmail = await this.emails.findOne({ email: userData.email });
     if (findEmail) throw new HttpException(409, `${userData.email} này đã có người sử dụng!`);
     const createEmail = await this.emails.create({

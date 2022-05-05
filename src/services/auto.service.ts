@@ -2,9 +2,11 @@ import { IDiscount } from '@/interfaces/discount.interface';
 import cartModel from '@/models/cart.model';
 import categoryModel from '@/models/category.model';
 import discountModel from '@/models/discount.model';
+import emailModel from '@/models/email';
 import productModel from '@/models/product.model';
 import saleProductModel from '@/models/sale-product.model';
 import subCategoryModel from '@/models/sub-category.models';
+import userModel from '@/models/users.model';
 import voucherModel from '@/models/voucher.model';
 import moment from 'moment';
 export class AutoRun {
@@ -15,6 +17,8 @@ export class AutoRun {
   voucher = voucherModel;
   cart = cartModel;
   sale = saleProductModel;
+  emails = emailModel;
+  users = userModel;
   checkExprired = async (startDate: Date, endDate: Date): Promise<boolean> => {
     return moment(Date.now()).isBefore(endDate) && moment(Date.now()).isAfter(startDate);
   };

@@ -20,7 +20,7 @@ class ProductService {
     return allProduct;
   }
   public async getProductByCategory(path: string): Promise<any> {
-    const findCate = await this.category.findOne({ path });
+    const findCate = await this.category.find({ path });
     if (!findCate) throw new HttpException(400, 'Danh mục này không tồn tại!');
     const allProduct = await this.product.find({ isDeleted: false, category: findCate._id }).populate('category nsx');
     return allProduct;

@@ -30,8 +30,8 @@ class CategoryRoute implements IRoutes {
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
-      uploadFile.single('logos'),
-      this.categoryController.updateCategory,
+      uploadFile.single('logo'),
+      this.categoryController.createCategory,
     );
     this.router.post(
       `${this.path}/create-nsx`,

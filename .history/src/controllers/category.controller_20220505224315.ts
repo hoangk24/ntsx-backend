@@ -24,6 +24,8 @@ class CateogryController {
   public updateCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const update: any = req.body;
+      console.log(update);
+
       const { id } = req.params;
       const file = req.file;
       const createCategory = await this.categoryService.updateCategory(id as string, update, file);

@@ -19,10 +19,13 @@ class ProductService {
     const allProduct = await this.product.find({ isDeleted: false }).sort({ createdAt: 1 }).limit(10).populate('category nsx');
     return allProduct;
   }
-  public async getProductByCategory(path: string): Promise<any> {
+  public async getProductByCategory(path: string): Promise<IProduct[]> {
     const findCate = await this.category.findOne({ path });
-    if (!findCate) throw new HttpException(400, 'Danh mục này không tồn tại!');
-    const allProduct = await this.product.find({ isDeleted: false, category: findCate._id }).populate('category nsx');
+    console.log(findCate);
+
+    // if (!findCate) throw new HttpException(400, 'Danh mục này không tồn tại!');
+    // const allProduct = await this.product.find({ isDeleted: false, category: findCate._id }).populate('category nsx');
+    const allProduct = null;
     return allProduct;
   }
   public async getProductByNsx(path: string): Promise<IProduct[]> {

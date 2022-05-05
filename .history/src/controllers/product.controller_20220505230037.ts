@@ -25,6 +25,8 @@ class ProductController {
   public getProductByNsx = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { path } = req.params;
+      console.log(path);
+
       const findAllProduct: IProduct[] = await this.productService.getProductByNsx(path as string);
       res.status(200).json({ data: findAllProduct, message: 'Get product successfully' });
     } catch (error) {
