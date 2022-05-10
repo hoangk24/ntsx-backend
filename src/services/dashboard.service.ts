@@ -22,10 +22,8 @@ export class DashboardService {
       },
       0,
     );
-    console.log(totalCost);
+    // const test = await this.sale.aggregate("")
     const cartTable = await this.carts.find({ status: CartStatus.CREATING }).populate('user list.idProduct');
-    console.log(cartTable);
-
     return { product: countProduct, users: countUsers, carts: countCarts, cartTable: cartTable, totalCost: totalCost };
   };
 }

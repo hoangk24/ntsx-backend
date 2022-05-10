@@ -74,7 +74,7 @@ class CartService {
     let isDisabled = false;
     for (const it of carts) {
       const findProduct = await this.productModel.findById(it.idProduct).select('posters name price discount size');
-      const findQuantity = _findIndex(findProduct.size, (n: ISizes) => n.size === it.size.size);
+      const findQuantity = _findIndex(findProduct.size, (n: ISizes) => n.size === it.size);
       totalCost += (findProduct.price - findProduct.discount) * it.quantity;
       totalQuantity += it.quantity;
       const temp = (findProduct as any)._doc;
