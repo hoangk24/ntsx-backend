@@ -1,4 +1,3 @@
-import CommentController from '@/controllers/comment.controller';
 import DashboardController from '@/controllers/dashboard.controller';
 import { IRoutes } from '@interfaces/routes.interface';
 import { Router } from 'express';
@@ -13,7 +12,7 @@ class DashboardRoute implements IRoutes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/`, this.dashboardController.getDashboard);
+    this.router.post(`${this.path}/`, this.dashboardController.getDashboard);
   }
 }
 

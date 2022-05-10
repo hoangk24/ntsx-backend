@@ -6,8 +6,9 @@ class DashboardController {
   service = new DashboardService();
   public getDashboard = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.service.getDashboard();
-      res.status(200).json({ data, message: 'Get dashboard successfully' });
+      const data = req.body;
+      const dashboard = await this.service.getDashboard(data as any);
+      res.status(200).json({ data: dashboard, message: 'Get dashboard successfully' });
     } catch (error) {
       next(error);
     }
