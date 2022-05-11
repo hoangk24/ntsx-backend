@@ -44,9 +44,6 @@ class ProductService {
       urlPosters.push({ public_id: data.public_id, url: data.url });
       fs.unlinkSync(path);
     }
-
-    console.log(urlPosters);
-
     const createProduct: IProduct = await this.product.create({
       _id: new mongoose.Types.ObjectId(),
       ...productData,
@@ -64,6 +61,11 @@ class ProductService {
     const deleteProduct: IProduct = await this.product.findByIdAndUpdate(id, { isDeleted: false });
     if (!deleteProduct) throw new HttpException(400, 'Hoàn tác sản phẩm không thành công!');
     return deleteProduct;
+  }
+  public async updateProduct(id: string, data: Partial<IProduct>): Promise<IProduct> {
+    const findProduct = await this.product.findByIdAndUpdate(id, { ...data });
+    if (!findProduct) throw new HttpException(400, 'Cật nhật sản phẩm không thành công!');
+    return findProduct;
   }
 }
 

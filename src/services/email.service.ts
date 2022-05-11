@@ -34,7 +34,9 @@ class EmailService {
   }
 
   public async createEmail(createData: CreateMailDto): Promise<{ findEmail: IUser }> {
-    const findUser: IUser = await this.users.findById(createData.idUser).populate({
+    console.log(createData);
+
+    const findUser: IUser = await this.users.findById(createData?.idUser).populate({
       path: 'email',
       model: emailModel,
       select: 'email verified',

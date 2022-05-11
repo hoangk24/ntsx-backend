@@ -55,17 +55,16 @@ class ProductController {
       console.log(files);
 
       const createProduct: IProduct = await this.productService.createProduct(productData, files);
-      res.status(200).json({ data: createProduct, message: 'Create product successfully' });
+      res.status(200).json({ data: createProduct, message: 'Thêm sản phẩm  thành công!' });
     } catch (error) {
       next(error);
     }
   };
   public updateProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // const productData: any = req.body;
-      // const files = req.files;
-      // const createProduct: Product = await this.productService.createProduct(productData, files);
-      res.status(200).json({ data: {}, message: 'Create product successfully' });
+      const { id } = req.params;
+      const update = await this.productService.updateProduct(id, req.body);
+      res.status(200).json({ data: update, message: 'Cật nhật sản phẩm thành công!' });
     } catch (error) {
       next(error);
     }
@@ -74,7 +73,7 @@ class ProductController {
     try {
       const { id } = req.query;
       const deleteProduct = await this.productService.deleteProduct(id as any);
-      res.status(200).json({ data: deleteProduct, message: 'Delete product successfully' });
+      res.status(200).json({ data: deleteProduct, message: 'Xoá sản phẩm thành công!' });
     } catch (error) {
       next(error);
     }
@@ -83,7 +82,7 @@ class ProductController {
     try {
       const { id } = req.query;
       const deleteProduct = await this.productService.unDeleteProduct(id as any);
-      res.status(200).json({ data: deleteProduct, message: 'update status product successfully' });
+      res.status(200).json({ data: deleteProduct, message: 'Hoàn tác sản phẩm thành công' });
     } catch (error) {
       next(error);
     }

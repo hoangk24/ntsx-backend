@@ -20,7 +20,7 @@ class ProductRoute implements IRoutes {
     this.router.get(`${this.path}/get-top10-product`, this.productController.getTop10Product);
     this.router.get(`${this.path}/get-product-by-category/:path`, this.productController.getProductByCategory);
     this.router.get(`${this.path}/get-product-by-nsx/:path`, this.productController.getProductByNsx);
-
+    this.router.post(`${this.path}/update-product/:id`, authMiddleware, isAdminMiddleware, this.productController.updateProduct);
     this.router.post(
       `${this.path}/create-product`,
       validationMiddleware(CreateProductDto, 'body'),
