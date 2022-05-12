@@ -5,6 +5,7 @@ import { RegisterUserDto } from '@dtos/users.dto';
 import { IRoutes } from '@interfaces/routes.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
 import validationMiddleware from '@/middlewares/validation.middleware';
+import uploadFile from '@/middlewares/upload.middleware';
 
 class UsersRoute implements IRoutes {
   public path = '/users';
@@ -24,6 +25,8 @@ class UsersRoute implements IRoutes {
     this.router.post(`${this.path}/active-mail/:id`, this.usersController.activeMailUser.bind(this.usersController));
     this.router.post(`${this.path}/change-role/:id`, this.usersController.changeRole);
     this.router.post(`${this.path}/change-password`, this.usersController.changePassword);
+    this.router.post(`${this.path}/update-information`, authMiddleware, uploadFile.single('avatar'), this.usersController.updateInformation);
+    this.router.post(`${this.path}/update-password`, authMiddleware, this.usersController.updatePassword);
   }
 }
 

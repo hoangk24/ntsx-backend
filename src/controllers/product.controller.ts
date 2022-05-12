@@ -52,8 +52,6 @@ class ProductController {
     try {
       const productData: CreateProductDto = req.body;
       const files = req.files;
-      console.log(files);
-
       const createProduct: IProduct = await this.productService.createProduct(productData, files);
       res.status(200).json({ data: createProduct, message: 'Thêm sản phẩm  thành công!' });
     } catch (error) {

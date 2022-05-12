@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { RegisterUserDto } from '@dtos/users.dto';
 import { IUser } from '@interfaces/users.interface';
 import userService from '@services/users.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class UsersController {
   public userService = new userService();
@@ -43,7 +44,23 @@ class UsersController {
       next(error);
     }
   };
-
+  public updateInformation = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const user = await this.userService.updateUserInformation(req.user, req.body, req.file);
+      res.status(201).json({ data: user, message: 'Cật nhật thông tin thành công!' });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public updatePassword = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user;
+      const update = await this.userService.updatePassword(user, req.body);
+      res.status(201).json({ data: update, message: 'Cật nhật mật khẩu thành công!' });
+    } catch (error) {
+      next(error);
+    }
+  };
   public updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId: string = req.params.id;

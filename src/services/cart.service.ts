@@ -112,14 +112,11 @@ class CartService {
 
   public async getCart(): Promise<ICart[]> {
     const findCart: any = await this.cartModel.find({}).populate('list.idProduct user');
-    console.log(findCart);
     return findCart;
   }
 
   public async calcDiscount(voucher: string, totalCost: number) {
     const voucherValid = await this.voucherModel.findOne({ voucher, status: true });
-    console.log('voucher' + voucherValid);
-
     if (!voucher) throw new HttpException(400, 'This voucher is not found');
     if (!checkDate(voucherValid.startDate, voucherValid.endDate)) throw new HttpException(400, 'Voucher is expired');
     return (totalCost * voucherValid.percent) / 100;

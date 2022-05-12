@@ -24,14 +24,12 @@ export class VoucherService {
   public async updateVoucher(id: string, data: IVoucher): Promise<IVoucher> {
     const update = await this.voucher.findByIdAndUpdate(id, { ...data });
     if (!update) throw new HttpException(400, 'Không thể update voucher này');
-    console.log(update);
 
     return update;
   }
   public async removeVoucher(id: string): Promise<IVoucher> {
     const update = await this.voucher.findByIdAndDelete(id);
     if (!update) throw new HttpException(400, 'Không thể update voucher này');
-    console.log(update);
 
     return update;
   }

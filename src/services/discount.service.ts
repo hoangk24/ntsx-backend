@@ -41,8 +41,6 @@ class DiscountService {
     return apply;
   }
   public async updateDiscount(id: string, data: any): Promise<any> {
-    console.log(id);
-
     const update = await this.discount.findByIdAndUpdate(id, { ...data });
     if (!update) throw new HttpException(400, 'Cant update your discount');
     return update;

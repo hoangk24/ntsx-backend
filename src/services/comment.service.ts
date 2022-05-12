@@ -12,8 +12,6 @@ class CommentService {
     return getComment;
   }
   public async addComment(comment: IComment) {
-    console.log(comment);
-
     const createComment = await this.comments.create({
       _id: new mongoose.Types.ObjectId(),
       ...comment,

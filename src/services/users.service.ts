@@ -1,11 +1,13 @@
 import { SECRET_KEY } from '@/config';
+import { IImage } from '@/interfaces/product.interface';
 import emailModel from '@/models/email';
+import cloudinaryUpload, { ForderName } from '@/utils/uploadImage';
 import { RegisterUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Role, IUser } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { verify } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 class UserService {
@@ -59,7 +61,21 @@ class UserService {
     if (!createUserData) throw new HttpException(400, 'Tạo user không thành công!');
     return createUserData;
   }
-
+  public async updatePassword(user: IUser, data: { oldPassword: string; newPassword: string }): Promise<IUser> {
+    const isMatchOldPassword = await compare(data.oldPassword, user.password);
+    if (!isMatchOldPassword) throw new HttpException(400, 'Mật khẩu cũ không đúng!');
+    const update = await this.users.findByIdAndUpdate(user._id, { password: await hash(data.newPassword, 10) });
+    return update;
+  }
+  public async updateUserInformation(user: IUser, data?: Partial<IUser>, file?: any): Promise<IUser> {
+    let avatar = null;
+    if (file) {
+      const { path } = file;
+      avatar = await (await cloudinaryUpload.upload(path, 'Avartar')).url;
+    }
+    const update = await this.users.findByIdAndUpdate(user._id, { ...data, avatar: avatar || user.avatar }).populate('email');
+    return update;
+  }
   public async updateUser(userId: string, userData: RegisterUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
     if (userData.email) {

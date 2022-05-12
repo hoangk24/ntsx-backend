@@ -6,7 +6,6 @@ import { sign, verify } from 'jsonwebtoken';
 async function decodeToken(token: string): Promise<any> {
   const secretKey: string = SECRET_KEY;
   const data = await verify(token, secretKey);
-  console.log(data);
   return data;
 }
 function createToken(user: IUser): any {
