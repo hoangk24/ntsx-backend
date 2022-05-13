@@ -52,6 +52,14 @@ class ProductService {
     });
     return createProduct;
   }
+  public async searchProduct(search: string): Promise<IProduct[]> {
+    const test = await this.product.find({
+      $text: {
+        $search: search,
+      },
+    });
+    return test;
+  }
   public async deleteProduct(id: string): Promise<IProduct> {
     const deleteProduct: IProduct = await this.product.findByIdAndUpdate(id, { isDeleted: true });
     if (!deleteProduct) throw new HttpException(400, 'Xoá sản phẩm không thành công!');

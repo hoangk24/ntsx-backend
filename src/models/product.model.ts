@@ -25,6 +25,7 @@ const productsSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+productsSchema.index({ name: 'text', note: 'text' });
 const productModel = model<IProduct & Document>('product', productsSchema);
-
+productModel.createIndexes();
 export default productModel;

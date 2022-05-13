@@ -16,6 +16,7 @@ class ProductRoute implements IRoutes {
   }
   private initializeRoutes() {
     this.router.get(`${this.path}/get-all-product`, this.productController.getProduct);
+    this.router.get(`${this.path}/search-product`, this.productController.searchProduct);
     this.router.get(`${this.path}/get-detail-product/:id`, this.productController.getProductDetail);
     this.router.get(`${this.path}/get-top10-product`, this.productController.getTop10Product);
     this.router.get(`${this.path}/get-product-by-category/:path`, this.productController.getProductByCategory);

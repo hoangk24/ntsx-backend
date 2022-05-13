@@ -48,6 +48,15 @@ class ProductController {
       next(error);
     }
   };
+  public searchProduct = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const search = req.query.search;
+      const searchProduct: IProduct[] = await this.productService.searchProduct(search as string);
+      res.status(200).json({ data: searchProduct, message: 'Search sản phẩm  thành công!' });
+    } catch (error) {
+      next(error);
+    }
+  };
   public createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productData: CreateProductDto = req.body;

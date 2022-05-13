@@ -32,12 +32,18 @@ export class AutoRun {
     }
   };
   run = async () => {
-    const getDiscount = await this.getDiscountActive();
-    if (getDiscount) {
-      const isNotExpired = await this.checkExprired(getDiscount.startDate, getDiscount.endDate);
-      if (!isNotExpired) {
-        await this.resetDiscount(getDiscount.list as any);
-      }
-    }
+    // const test = await this.productModel.find({
+    //   $text: {
+    //     $search: 'addidas',
+    //   },
+    // });
+    // console.log(test);
+    // const getDiscount = await this.getDiscountActive();
+    // if (getDiscount) {
+    //   const isNotExpired = await this.checkExprired(getDiscount.startDate, getDiscount.endDate);
+    //   if (!isNotExpired) {
+    //     await this.resetDiscount(getDiscount.list as any);
+    //   }
+    // }
   };
 }
