@@ -44,7 +44,7 @@ async function sendMail(data: DataSendMail): Promise<any> {
     title: message.title,
     template: type,
     context: {
-      ...message.message,
+      ...message,
     },
   };
   await transporter.sendMail(mail);

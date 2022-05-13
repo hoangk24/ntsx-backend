@@ -18,12 +18,24 @@ class UsersRoute implements IRoutes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/get-users`, authMiddleware, isAdminMiddleware, this.usersController.getUsers);
-    this.router.get(`${this.path}/get-users-by-id/:id`, this.usersController.getUserById);
-    this.router.post(`${this.path}/create-users`, validationMiddleware(RegisterUserDto, 'body'), this.usersController.createUser);
-    this.router.put(`${this.path}/update-users/:id`, validationMiddleware(RegisterUserDto, 'body', true), this.usersController.updateUser);
-    this.router.delete(`${this.path}/delete-users/:id`, this.usersController.deleteUser);
+    this.router.get(`${this.path}/get-users-by-id/:id`, authMiddleware, isAdminMiddleware, this.usersController.getUserById);
+    this.router.post(
+      `${this.path}/create-users`,
+      authMiddleware,
+      isAdminMiddleware,
+      validationMiddleware(RegisterUserDto, 'body'),
+      this.usersController.createUser,
+    );
+    this.router.put(
+      `${this.path}/update-users/:id`,
+      authMiddleware,
+      isAdminMiddleware,
+      validationMiddleware(RegisterUserDto, 'body', true),
+      this.usersController.updateUser,
+    );
+    this.router.delete(`${this.path}/delete-users/:id`, authMiddleware, isAdminMiddleware, this.usersController.deleteUser);
     this.router.post(`${this.path}/active-mail/:id`, this.usersController.activeMailUser.bind(this.usersController));
-    this.router.post(`${this.path}/change-role/:id`, this.usersController.changeRole);
+    this.router.post(`${this.path}/change-role/:id`, authMiddleware, isAdminMiddleware, this.usersController.changeRole);
     this.router.post(`${this.path}/change-password`, this.usersController.changePassword);
     this.router.post(`${this.path}/update-information`, authMiddleware, uploadFile.single('avatar'), this.usersController.updateInformation);
     this.router.post(`${this.path}/update-password`, authMiddleware, this.usersController.updatePassword);

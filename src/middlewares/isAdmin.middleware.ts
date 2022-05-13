@@ -5,7 +5,7 @@ import { NextFunction, Response } from 'express';
 
 const isAdminMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   const user = req.user;
-  if (user.role === Role.ADMIN) next();
+  if ([Role.ADMIN, Role.MASTER].includes(user.role)) next();
   else {
     next(new HttpException(401, 'Không đủ quyền!'));
   }

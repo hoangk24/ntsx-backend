@@ -70,6 +70,7 @@ export class EmailController {
         subject: createMail.subject,
         title: createMail.title,
         message: {
+          title: createMail.title,
           message: createMail.message,
         },
       };

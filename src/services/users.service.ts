@@ -1,10 +1,9 @@
 import { SECRET_KEY } from '@/config';
-import { IImage } from '@/interfaces/product.interface';
 import emailModel from '@/models/email';
-import cloudinaryUpload, { ForderName } from '@/utils/uploadImage';
+import cloudinaryUpload from '@/utils/uploadImage';
 import { RegisterUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
-import { Role, IUser } from '@interfaces/users.interface';
+import { IUser, Role } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
 import { compare, hash } from 'bcrypt';
@@ -14,7 +13,7 @@ class UserService {
   public users = userModel;
   public emails = emailModel;
   public async findAllUser(): Promise<IUser[]> {
-    const users: IUser[] = await this.users.find({ isDeleted: false }).populate('email');
+    const users: IUser[] = await this.users.find({}).populate('email');
     return users;
   }
   public async findUserById(userId: string): Promise<IUser> {
@@ -91,10 +90,11 @@ class UserService {
     return updateUserById;
   }
 
-  public async deleteUser(userId: string): Promise<IUser> {
-    const isUserDeleteAdmin: IUser = await this.users.findById(userId);
-    if (isUserDeleteAdmin.role === Role.ADMIN) throw new HttpException(400, 'User này không thể xoá!');
-    const deleteUserById: IUser = await this.users.findByIdAndUpdate(userId, { isDeleted: !isUserDeleteAdmin.isDeleted }, { new: true });
+  public async deleteUser(userId: string, user: IUser): Promise<IUser> {
+    const findUser: IUser = await this.users.findById(userId);
+    if (findUser.role === Role.MASTER) throw new HttpException(400, 'User này không thể xoá!');
+    if (findUser.role === Role.ADMIN && user.role !== Role.MASTER) throw new HttpException(400, 'Không đủ quyền để xoá');
+    const deleteUserById: IUser = await this.users.findByIdAndUpdate(userId, { isDeleted: !findUser.isDeleted }, { new: true });
     return deleteUserById;
   }
 }

@@ -41,7 +41,7 @@ class AuthService {
     const findUser = await this.users.findOne({ email: findUserEmail._id }).populate('email');
     const isPasswordMatching: boolean = await compare(password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Mật khẩu không đúng!');
-    // if (!findUser.isDeleted) throw new HttpException(409, 'Tài khoản của bạn đã bị khoá!');
+    if (findUser.isDeleted) throw new HttpException(409, 'Tài khoản của bạn đã bị khoá!');
     if (!findUserEmail.verified) throw new HttpException(400, 'Email của bạn chưa được xác thực!');
     const token = await createToken(findUser);
     const refreshToken = await createRefreshToken(findUser);

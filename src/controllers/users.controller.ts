@@ -82,10 +82,11 @@ class UsersController {
     }
   }
 
-  public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  public deleteUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userId: string = req.params.id;
-      const deleteUserData: IUser = await this.userService.deleteUser(userId);
+      const user = req.user;
+      const deleteUserData: IUser = await this.userService.deleteUser(userId, user);
       res.status(200).json({ data: deleteUserData, message: 'Xoá user thành công' });
     } catch (error) {
       next(error);
