@@ -38,7 +38,7 @@ export class EmailController {
         subject: 'Xác minh Email NTH Team',
         title: 'EMAIL VERIFIED',
         message: {
-          text: 'Click vào xác minh để đổi mật khẩu của bạn',
+          text: 'Click vào xác minh để phục hồi mật khẩu của bạn',
           title: 'Chào bạn mừng bạn để NTH STORE',
           link: `${UI_URL}/change-password?token=${token.token}`,
         },
@@ -74,9 +74,8 @@ export class EmailController {
           message: createMail.message,
         },
       };
-      await sendMail({ email: findEmail?.email?.email, message, type: 'email' }).then(() => {
-        res.status(201).json({ data: findEmail, message: 'Gửi mail thành công!' });
-      });
+      await sendMail({ email: findEmail?.email?.email, message, type: 'email' });
+      res.status(201).json({ data: findEmail, message: 'Gửi mail thành công!' });
     } catch (error) {
       next(error);
     }

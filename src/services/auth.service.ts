@@ -16,7 +16,11 @@ class AuthService {
   public async signup(userData: RegisterUserDto): Promise<{ createUser: IUser; token: ITokenData }> {
     if (isEmpty(userData)) throw new HttpException(400, 'Not found userdata');
     const findUser = await this.emails.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    if (findUser) {
+      if (findUser.verified) throw new HttpException(409, `You're email ${userData.email} already exists`);
+      await this.users.findByIdAndDelete(findUser._id);
+      await this.emails.deleteOne({ email: findUser.email });
+    }
     const hashedPassword = await hash(userData.password, 10);
     const createMail = await this.emails.create({ _id: new mongoose.Types.ObjectId(), email: userData.email });
     const createUserData: IUser = await this.users.create({

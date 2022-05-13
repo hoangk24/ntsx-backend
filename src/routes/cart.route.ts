@@ -17,6 +17,7 @@ class CartRoute implements IRoutes {
 
   private initializeRoutes() {
     this.router.post(`${this.path}/get-cart-preview`, this.cartController.getPreview);
+    this.router.post(`${this.path}/create-comment`, authMiddleware, this.cartController.createComment);
     this.router.post(`${this.path}/create-cart`, authMiddleware, validationMiddleware(CreateCartDto, 'body'), this.cartController.createCart);
     this.router.get(`${this.path}/check-voucher`, this.cartController.checkVoucher);
     this.router.get(`${this.path}/get-cart-user`, this.cartController.getCartUser);

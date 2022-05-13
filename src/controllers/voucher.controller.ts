@@ -6,7 +6,7 @@ class VoucherController {
   public getVoucher = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const vouchers = await this.voucherService.getVoucher();
-      res.status(200).json({ data: vouchers, message: 'get voucher success' });
+      res.status(200).json({ data: vouchers, message: 'Lấy danh sách voucher thành công!' });
     } catch (error) {
       next(error);
     }
@@ -14,7 +14,7 @@ class VoucherController {
   public createVoucher = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const vouchers = await this.voucherService.addVoucher(req.body);
-      res.status(200).json({ data: vouchers, message: 'add voucher success' });
+      res.status(200).json({ data: vouchers, message: 'Tạo voucher thành công!' });
     } catch (error) {
       next(error);
     }
@@ -23,7 +23,7 @@ class VoucherController {
     try {
       const { id } = req.params;
       const vouchers = await this.voucherService.updateVoucher(id, req.body);
-      res.status(200).json({ data: vouchers, message: 'add voucher success' });
+      res.status(200).json({ data: vouchers, message: 'Cật nhật voucher thành công!' });
     } catch (error) {
       next(error);
     }
@@ -32,7 +32,7 @@ class VoucherController {
     try {
       const id = req.query.id;
       const vouchers = await this.voucherService.removeVoucher(id as string);
-      res.status(200).json({ data: vouchers, message: 'remove voucher success' });
+      res.status(200).json({ data: vouchers, message: 'Xoá voucher thành công' });
     } catch (error) {
       next(error);
     }

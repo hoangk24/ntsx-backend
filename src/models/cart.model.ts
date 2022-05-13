@@ -24,6 +24,7 @@ const cartsSchema: Schema = new Schema(
     totalQuantity: { type: Number, required: true },
     finalCost: { type: Number, required: true },
     note: { type: String, default: '' },
+    isCommented: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

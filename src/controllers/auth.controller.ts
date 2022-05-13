@@ -20,9 +20,8 @@ class AuthController {
           link: `${UI_URL}/verified-email?token=${token.token}`,
         },
       };
-      await sendMail({ email: createUser?.email?.email, message, type: 'verify' }).then(() => {
-        res.status(201).json({ data: createUser, message: 'Vui lòng check email để kích hoạt tài khoản!' });
-      });
+      await sendMail({ email: createUser?.email?.email, message, type: 'verify' });
+      res.status(201).json({ data: createUser, message: 'Vui lòng check email để kích hoạt tài khoản!' });
     } catch (error) {
       next(error);
     }

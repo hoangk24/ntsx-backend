@@ -1,16 +1,19 @@
 import { CreateProductDto } from '@/dtos/product.dto';
 import { HttpException } from '@/exceptions/HttpException';
+import { IComment } from '@/interfaces/comment.interface';
 import { IProduct } from '@/interfaces/product.interface';
 import categoryModel from '@/models/category.model';
+import commentModel from '@/models/comment.model';
 import productModel from '@/models/product.model';
 import subCategoryModel from '@/models/sub-category.models';
 import cloudinaryUpload, { ForderName } from '@/utils/uploadImage';
 import fs from 'fs';
 import mongoose from 'mongoose';
 class ProductService {
-  public product = productModel;
-  public category = categoryModel;
-  public subCate = subCategoryModel;
+  product = productModel;
+  category = categoryModel;
+  subCate = subCategoryModel;
+  comment = commentModel;
   public async getProduct(): Promise<IProduct[]> {
     const allProduct = await this.product.find({ isDeleted: false }).populate('category nsx');
     return allProduct;
@@ -27,14 +30,15 @@ class ProductService {
   }
   public async getProductByNsx(path: string): Promise<IProduct[]> {
     const findCate = await this.subCate.findOne({ path });
-
     const allProduct = await this.product.find({ isDeleted: false, nsx: findCate._id }).populate('category nsx');
     return allProduct;
   }
-  public async getProductDetail(id: string): Promise<IProduct> {
+
+  public async getProductDetail(id: string): Promise<{ product: IProduct; comments: IComment[] }> {
     const getProduct = await this.product.findById(id).populate('nsx category');
     if (!getProduct) throw new HttpException(400, 'Wrong id product');
-    return getProduct;
+    const comments = await this.comment.find({ product: getProduct._id }).populate('user');
+    return { product: getProduct, comments: comments };
   }
   public async createProduct(productData: CreateProductDto, posters: any): Promise<IProduct> {
     const urlPosters = [];

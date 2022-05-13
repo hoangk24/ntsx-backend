@@ -21,7 +21,6 @@ class DiscountService {
       ...data,
       status: false,
     });
-
     return createDiscount;
   }
   public async applyDiscount(data: any): Promise<any> {
@@ -37,12 +36,11 @@ class DiscountService {
         discount: data.status ? (findProduct.price * apply.percent) / 100 : 0,
       });
     }
-
     return apply;
   }
   public async updateDiscount(id: string, data: any): Promise<any> {
     const update = await this.discount.findByIdAndUpdate(id, { ...data });
-    if (!update) throw new HttpException(400, 'Cant update your discount');
+    if (!update) throw new HttpException(400, 'Cật nhật khuyến mãi không thành công!');
     return update;
   }
 }

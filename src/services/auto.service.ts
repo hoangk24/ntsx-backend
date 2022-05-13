@@ -1,3 +1,4 @@
+import { CartStatus } from '@/interfaces/cart.interface';
 import { IDiscount } from '@/interfaces/discount.interface';
 import cartModel from '@/models/cart.model';
 import categoryModel from '@/models/category.model';
@@ -8,6 +9,8 @@ import saleProductModel from '@/models/sale-product.model';
 import subCategoryModel from '@/models/sub-category.models';
 import userModel from '@/models/users.model';
 import voucherModel from '@/models/voucher.model';
+import DiscountService from '@/services/discount.service';
+import _reduce from 'lodash/reduce';
 import moment from 'moment';
 export class AutoRun {
   productModel = productModel;
@@ -19,6 +22,7 @@ export class AutoRun {
   sale = saleProductModel;
   emails = emailModel;
   users = userModel;
+  discountService = new DiscountService();
   checkExprired = async (startDate: Date, endDate: Date): Promise<boolean> => {
     return moment(Date.now()).isBefore(endDate) && moment(Date.now()).isAfter(startDate);
   };
@@ -32,18 +36,23 @@ export class AutoRun {
     }
   };
   run = async () => {
-    // const test = await this.productModel.find({
-    //   $text: {
-    //     $search: 'addidas',
-    //   },
-    // });
-    // console.log(test);
-    // const getDiscount = await this.getDiscountActive();
-    // if (getDiscount) {
-    //   const isNotExpired = await this.checkExprired(getDiscount.startDate, getDiscount.endDate);
-    //   if (!isNotExpired) {
-    //     await this.resetDiscount(getDiscount.list as any);
-    //   }
-    // }
+    await this.resetDiscount(
+      await _reduce(
+        await this.productModel.find({}),
+        (result: any, item: any) => {
+          return (result = [...result, item._id]);
+        },
+        [],
+      ),
+    );
+    const getDiscount = await this.getDiscountActive();
+    if (getDiscount) {
+      const isNotExpired = await this.checkExprired(getDiscount.startDate, getDiscount.endDate);
+      if (!isNotExpired) {
+        await this.resetDiscount(getDiscount.list as any);
+      } else {
+        await this.discountService.applyDiscount(getDiscount);
+      }
+    }
   };
 }

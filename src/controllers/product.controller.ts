@@ -42,7 +42,7 @@ class ProductController {
   public getProductDetail = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productId: any = req.params.id;
-      const findProduct: IProduct = await this.productService.getProductDetail(productId);
+      const findProduct = await this.productService.getProductDetail(productId);
       res.status(200).json({ data: findProduct, message: 'Get product detail successfully' });
     } catch (error) {
       next(error);

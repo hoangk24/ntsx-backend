@@ -1,4 +1,3 @@
-import categoryService from '@/services/catgory.service';
 import { DashboardService } from '@/services/dashboard.service';
 import { NextFunction, Request, Response } from 'express';
 

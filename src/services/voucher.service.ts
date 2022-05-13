@@ -8,11 +8,13 @@ export class VoucherService {
   productModel = productModel;
   discountModel = discountModel;
   voucher = voucherModel;
+
   public async getVoucher(): Promise<IVoucher[]> {
     const findVoucher = await this.voucher.find({});
     return findVoucher;
   }
   public async addVoucher(data: IVoucher): Promise<IVoucher> {
+    if (await this.voucher.findOne({ voucher: data.voucher })) throw new HttpException(400, 'Mã voucher này đã tồn tại!');
     const create = await this.voucher.create({
       _id: new mongoose.Types.ObjectId(),
       ...data,
@@ -22,6 +24,12 @@ export class VoucherService {
     return create;
   }
   public async updateVoucher(id: string, data: IVoucher): Promise<IVoucher> {
+    if (
+      await this.voucher.findOne({
+        voucher: data.voucher,
+      })
+    )
+      throw new HttpException(400, 'Mã voucher này đã tồn tại!');
     const update = await this.voucher.findByIdAndUpdate(id, { ...data });
     if (!update) throw new HttpException(400, 'Không thể update voucher này');
 
