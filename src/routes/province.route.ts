@@ -1,8 +1,6 @@
-import { Router } from 'express';
-import IndexController from '@controllers/index.controller';
-import { IRoutes } from '@interfaces/routes.interface';
-import ProductController from '@/controllers/product.controller';
 import ProvinceController from '@/controllers/province.controller';
+import { IRoutes } from '@interfaces/routes.interface';
+import { Router } from 'express';
 
 class ProvinceRoute implements IRoutes {
   public path = '/province';

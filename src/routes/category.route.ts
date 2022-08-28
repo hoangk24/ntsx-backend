@@ -16,17 +16,17 @@ class CategoryRoute implements IRoutes {
     this.initializeRoutes();
   }
   private initializeRoutes() {
-    this.router.get(`${this.path}/get-category`, this.categoryController.getCategory);
+    this.router.get(`${this.path}`, this.categoryController.getCategory);
     this.router.post(
-      `${this.path}/create-category`,
+      `${this.path}`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
       uploadFile.array('logo', 2),
       this.categoryController.createCategory,
     );
-    this.router.post(
-      `${this.path}/update-category/:id`,
+    this.router.put(
+      `${this.path}/:id`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
@@ -34,7 +34,7 @@ class CategoryRoute implements IRoutes {
       this.categoryController.updateCategory,
     );
     this.router.post(
-      `${this.path}/create-nsx`,
+      `${this.path}/nsx`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateSubCategoryDto, 'body'),

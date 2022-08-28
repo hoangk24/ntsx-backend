@@ -13,7 +13,7 @@ class CommentRoute implements IRoutes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/get-comments`, this.commentController.getComment);
+    this.router.get(`${this.path}`, this.commentController.getComment);
   }
 }
 

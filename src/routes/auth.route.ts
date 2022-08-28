@@ -1,7 +1,6 @@
 import AuthController from '@controllers/auth.controller';
 import { LoginUserDto, RegisterUserDto } from '@dtos/users.dto';
 import { IRoutes } from '@interfaces/routes.interface';
-import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { Router } from 'express';
 
