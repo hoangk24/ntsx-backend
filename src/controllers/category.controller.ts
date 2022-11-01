@@ -1,7 +1,7 @@
 import categoryService from '@/services/catgory.service';
 import { NextFunction, Request, Response } from 'express';
 
-class CateogryController {
+class CategoryController {
   public categoryService = new categoryService();
   public getCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -43,4 +43,4 @@ class CateogryController {
   };
 }
 
-export default CateogryController;
+export default CategoryController;

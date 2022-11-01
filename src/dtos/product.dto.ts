@@ -1,4 +1,4 @@
-import { ISizes } from '@/interfaces/product.interface';
+import { ISize } from '@/interfaces/product.interface';
 import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class GetEntityPagination {
@@ -40,7 +40,7 @@ export class UpdateProductDto {
   price: number;
 
   @IsArray()
-  size: ISizes[];
+  size: ISize[];
 
   @IsNumber()
   discount: number;

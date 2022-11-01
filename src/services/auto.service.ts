@@ -1,4 +1,3 @@
-import { CartStatus } from '@/interfaces/cart.interface';
 import { IDiscount } from '@/interfaces/discount.interface';
 import cartModel from '@/models/cart.model';
 import categoryModel from '@/models/category.model';
@@ -23,18 +22,21 @@ export class AutoRun {
   emails = emailModel;
   users = userModel;
   discountService = new DiscountService();
-  checkExprired = async (startDate: Date, endDate: Date): Promise<boolean> => {
+
+  checkExpired = async (startDate: Date, endDate: Date): Promise<boolean> => {
     return moment(Date.now()).isBefore(endDate) && moment(Date.now()).isAfter(startDate);
   };
 
   getDiscountActive = async (): Promise<IDiscount> => {
     return await this.discountModel.findOne({ status: true });
   };
+
   resetDiscount = async (list: string[]) => {
     for (const it of list) {
       await this.productModel.updateMany({ _id: it }, { discount: 0 });
     }
   };
+
   run = async () => {
     await this.resetDiscount(
       await _reduce(
@@ -45,11 +47,12 @@ export class AutoRun {
         [],
       ),
     );
+
     const getDiscount = await this.getDiscountActive();
     if (getDiscount) {
-      const isNotExpired = await this.checkExprired(getDiscount.startDate, getDiscount.endDate);
+      const isNotExpired = await this.checkExpired(getDiscount.startDate, getDiscount.endDate);
       if (!isNotExpired) {
-        await this.resetDiscount(getDiscount.list as any);
+        await this.resetDiscount(getDiscount.list);
       } else {
         await this.discountService.applyDiscount(getDiscount);
       }

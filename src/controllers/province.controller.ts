@@ -1,4 +1,3 @@
-import ProductService from '@/services/product.service';
 import ProvinceService from '@/services/province.service';
 import { NextFunction, Request, Response } from 'express';
 

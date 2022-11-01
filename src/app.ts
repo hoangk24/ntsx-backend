@@ -14,8 +14,6 @@ import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
 import path from 'path';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
 class App {
   public app: Application;
@@ -29,9 +27,8 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    this.initializeSwagger();
     this.initializeErrorHandling();
-    this.autoRun.run();
+    // this.autoRun.run();
   }
 
   public getServer() {
@@ -69,22 +66,6 @@ class App {
     routes.forEach(route => {
       this.app.use('/api', route.router);
     });
-  }
-
-  private initializeSwagger() {
-    const options = {
-      swaggerDefinition: {
-        info: {
-          title: 'REST API',
-          version: '1.0.0',
-          description: 'Example docs',
-        },
-      },
-      apis: ['swagger.yaml'],
-    };
-
-    const specs = swaggerJSDoc(options);
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
   }
 
   private initializeErrorHandling() {

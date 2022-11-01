@@ -1,7 +1,6 @@
-import { Router } from 'express';
-import IndexController from '@controllers/index.controller';
-import { IRoutes } from '@interfaces/routes.interface';
 import VoucherController from '@/controllers/voucher.controller';
+import { IRoutes } from '@interfaces/routes.interface';
+import { Router } from 'express';
 
 class VoucherRoute implements IRoutes {
   public path = '/voucher';

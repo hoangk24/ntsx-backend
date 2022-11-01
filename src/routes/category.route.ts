@@ -1,6 +1,5 @@
 import categoryController from '@/controllers/category.controller';
 import { CreateCategoryDto, CreateSubCategoryDto } from '@/dtos/category.dto';
-import { CreateProductDto } from '@/dtos/product.dto';
 import authMiddleware from '@/middlewares/auth.middleware';
 import isAdminMiddleware from '@/middlewares/isAdmin.middleware';
 import uploadFile from '@/middlewares/upload.middleware';
@@ -16,25 +15,28 @@ class CategoryRoute implements IRoutes {
     this.initializeRoutes();
   }
   private initializeRoutes() {
-    this.router.get(`${this.path}/get-category`, this.categoryController.getCategory);
+    this.router.get(`${this.path}`, this.categoryController.getCategory);
+
     this.router.post(
-      `${this.path}/create-category`,
+      `${this.path}`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
       uploadFile.array('logo', 2),
       this.categoryController.createCategory,
     );
-    this.router.post(
-      `${this.path}/update-category/:id`,
+
+    this.router.put(
+      `${this.path}/:id`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateCategoryDto, 'body'),
       uploadFile.single('logos'),
       this.categoryController.updateCategory,
     );
+
     this.router.post(
-      `${this.path}/create-nsx`,
+      `${this.path}/nsx`,
       authMiddleware,
       isAdminMiddleware,
       validationMiddleware(CreateSubCategoryDto, 'body'),

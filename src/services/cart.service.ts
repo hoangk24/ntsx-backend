@@ -1,7 +1,7 @@
 import { ChangeStatusDto, CreateCartDto, RejectCartDto } from '@/dtos/cart.dto';
 import { HttpException } from '@/exceptions/HttpException';
 import { CartStatus, ICart, ICartItem } from '@/interfaces/cart.interface';
-import { ISizes } from '@/interfaces/product.interface';
+import { ISize } from '@/interfaces/product.interface';
 import cartModel from '@/models/cart.model';
 import productModel from '@/models/product.model';
 import voucherModel from '@/models/voucher.model';
@@ -74,7 +74,7 @@ class CartService {
     let isDisabled = false;
     for (const it of carts) {
       const findProduct = await this.productModel.findById(it.idProduct).select('posters name price discount size');
-      const findQuantity = _findIndex(findProduct.size, (n: ISizes) => n.size === it.size);
+      const findQuantity = _findIndex(findProduct.size, (n: ISize) => n.size === it.size);
       totalCost += (findProduct.price - findProduct.discount) * it.quantity;
       totalQuantity += it.quantity;
       const temp = (findProduct as any)._doc;

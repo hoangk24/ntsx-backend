@@ -2,7 +2,7 @@ export interface IProduct {
   _id: string;
   name: string;
   price: number;
-  size: ISizes[];
+  size: ISize[];
   posters: IImage[];
   discount: number;
   category: string;
@@ -18,7 +18,7 @@ export interface IProduct {
   };
 }
 
-export interface ISizes {
+export interface ISize {
   size: number;
   quantity: number;
 }

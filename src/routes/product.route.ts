@@ -1,5 +1,5 @@
 import productController from '@/controllers/product.controller';
-import { CreateProductDto, GetProductDetailDto, UpdateProductDto } from '@/dtos/product.dto';
+import { CreateProductDto } from '@/dtos/product.dto';
 import authMiddleware from '@/middlewares/auth.middleware';
 import isAdminMiddleware from '@/middlewares/isAdmin.middleware';
 import uploadFile from '@/middlewares/upload.middleware';
@@ -15,13 +15,13 @@ class ProductRoute implements IRoutes {
     this.initializeRoutes();
   }
   private initializeRoutes() {
-    this.router.get(`${this.path}/get-all-product`, this.productController.getProduct);
-    this.router.get(`${this.path}/search-product`, this.productController.searchProduct);
-    this.router.get(`${this.path}/get-detail-product/:id`, this.productController.getProductDetail);
-    this.router.get(`${this.path}/get-top10-product`, this.productController.getTop10Product);
-    this.router.get(`${this.path}/get-product-by-category/:path`, this.productController.getProductByCategory);
-    this.router.get(`${this.path}/get-product-by-nsx/:path`, this.productController.getProductByNsx);
-    this.router.post(`${this.path}/update-product/:id`, authMiddleware, isAdminMiddleware, this.productController.updateProduct);
+    this.router.get(`${this.path}`, this.productController.getProduct);
+    this.router.get(`${this.path}/search`, this.productController.searchProduct);
+    this.router.get(`${this.path}/:id`, this.productController.getProductDetail);
+    this.router.get(`${this.path}/top10`, this.productController.getTop10Product);
+    this.router.get(`${this.path}/category/:path`, this.productController.getProductByCategory);
+    this.router.get(`${this.path}/nsx/:path`, this.productController.getProductByNsx);
+    this.router.put(`${this.path}/:id`, authMiddleware, isAdminMiddleware, this.productController.updateProduct);
     this.router.post(
       `${this.path}/create-product`,
       validationMiddleware(CreateProductDto, 'body'),
@@ -30,7 +30,7 @@ class ProductRoute implements IRoutes {
       isAdminMiddleware,
       this.productController.createProduct,
     );
-    this.router.delete(`${this.path}/delete-product`, authMiddleware, isAdminMiddleware, this.productController.deleteProduct);
+    this.router.delete(`${this.path}`, authMiddleware, isAdminMiddleware, this.productController.deleteProduct);
   }
 }
 

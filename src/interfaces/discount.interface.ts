@@ -4,7 +4,7 @@ export interface IDiscount {
   _id: string;
   name: string;
   percent: number;
-  list: IProduct[];
+  list: string[] | IProduct[];
   startDate: Date;
   endDate: Date;
   createdAt?: Date;

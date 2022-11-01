@@ -1,4 +1,3 @@
-import { IToken } from '@/interfaces/token.interface';
 import emailModel from '@/models/email';
 import { createRefreshToken, createToken, decodeToken } from '@/utils/jwt';
 import { LoginUserDto, RegisterUserDto } from '@dtos/users.dto';

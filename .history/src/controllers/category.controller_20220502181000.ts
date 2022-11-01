@@ -1,6 +1,5 @@
 import categoryService from '@/services/catgory.service';
 import { NextFunction, Request, Response } from 'express';
-
 class CateogryController {
   public categoryService = new categoryService();
   public getCategory = async (req: Request, res: Response, next: NextFunction) => {

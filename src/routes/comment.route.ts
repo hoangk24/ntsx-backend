@@ -1,4 +1,3 @@
-import CartController from '@/controllers/cart.controller';
 import CommentController from '@/controllers/comment.controller';
 import { IRoutes } from '@interfaces/routes.interface';
 import { Router } from 'express';

@@ -1,8 +1,6 @@
-import { Router } from 'express';
-import IndexController from '@controllers/index.controller';
-import { IRoutes } from '@interfaces/routes.interface';
-import ProductController from '@/controllers/product.controller';
 import ProvinceController from '@/controllers/province.controller';
+import { IRoutes } from '@interfaces/routes.interface';
+import { Router } from 'express';
 
 class ProvinceRoute implements IRoutes {
   public path = '/province';
@@ -16,7 +14,6 @@ class ProvinceRoute implements IRoutes {
   private initializeRoutes() {
     this.router.get(`${this.path}/city`, this.provinceController.getCity);
     this.router.get(`${this.path}/district/:id`, this.provinceController.getDistrict);
-
     this.router.get(`${this.path}/ward/:id`, this.provinceController.getWard);
   }
 }
